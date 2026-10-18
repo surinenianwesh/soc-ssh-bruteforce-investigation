@@ -214,6 +214,24 @@ A real alert would require further investigation of the source, targeted account
 
 **Limitation:** This is a manually executed log-counting exercise, not an automated or continuously running detection rule.
 
+## Source IP Investigation
+
+### Objective
+Extract and count source addresses associated with failed SSH password authentication events.
+
+### Command Used
+```bash
+sudo journalctl -u ssh --since "today" --no-pager | grep "Failed password" | grep -oE 'from [^ ]+' | sort | uniq -c
+```
+
+### Lab Finding
+- **Source address:** `::1`
+- **Failed password events observed:** 3
+- **Username:** `invaliduser123`
+- **Interpretation:** The events came from the local Ubuntu host during controlled testing.
+
+### Analyst Note
+The loopback address `::1` is not evidence of an external attacker. In a real investigation, an analyst would correlate the source address with timestamps, usernames, event frequency, and other security logs before classifying activity as malicious.
 ---
 
 **Portfolio:** [My GitHub Profile](https://github.com/surinenianwesh)
