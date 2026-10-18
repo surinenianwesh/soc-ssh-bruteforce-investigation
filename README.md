@@ -95,6 +95,9 @@ Avoid blocking an IP address or changing production access controls without appr
 ## 6. Evidence and Findings
 
 Record the following after completing the lab investigation:
+````
+
+
 
 | Evidence | Finding |
 |---|---|
@@ -117,6 +120,43 @@ This project demonstrates a structured approach to authentication log analysis, 
 - Calculate failed attempts over a defined time window.
 - Create a detection query using sample or lab data.
 - Document investigation timestamps, evidence, and the final conclusion.
+
+
+
+
+---
+
+## 6. Evidence and Findings
+
+### Lab Environment
+- Operating system: Ubuntu Linux
+- Hostname: `sarao`
+- Log source: SSH service logs using `journalctl`
+- Test method: Controlled SSH login attempts against localhost
+
+### Observed Evidence
+The SSH logs recorded:
+- Invalid username: `invaliduser123`
+- Repeated failed password authentication attempts
+- PAM authentication failure messages
+- Connection closure before successful authentication
+
+### Key Log Evidence
+```text
+Invalid user invaliduser123 from ::1
+authentication failure; rhost=::1
+Failed password for invalid user invaliduser123 from ::1
+Connection closed by invalid user invaliduser123 ::1 [preauth]
+```
+
+### Analysis
+The test generated multiple SSH authentication failures. The source address `::1` is the IPv6 loopback address, confirming that the test originated on the same machine.
+
+### Final Classification
+**Controlled authentication-failure test — not a confirmed malicious incident.**
+
+This lab demonstrates SSH log analysis and authentication-failure investigation. Further testing with multiple controlled sessions and a defined time window would be needed to evaluate brute-force detection.
+
 
 ---
 
