@@ -1,19 +1,17 @@
 #!/bin/bash
 
-# Basic SSH failed-login detection script
-# Example threshold: 5 failures in a defined time window
+# SSH failed-login detection
+# Checks the most recent five minutes
 
-START="2026-10-18 00:05:00"
-END="2026-10-18 00:10:00"
 THRESHOLD=5
 
 COUNT=$(sudo journalctl -u ssh \
-    --since "$START" \
-    --until "$END" \
+    --since "5 minutes ago" \
     --no-pager | grep -c "Failed password")
 
 echo "SSH Failed-Login Detection"
 echo "--------------------------"
+echo "Time window: Last 5 minutes"
 echo "Failed SSH attempts: $COUNT"
 echo "Alert threshold: $THRESHOLD"
 
