@@ -158,6 +158,35 @@ The test generated multiple SSH authentication failures. The source address `::1
 This lab demonstrates SSH log analysis and authentication-failure investigation. Further testing with multiple controlled sessions and a defined time window would be needed to evaluate brute-force detection.
 
 
+
+---
+
+## 7. SSH Failed-Login Detection Logic
+
+### Detection Objective
+Identify repeated SSH password failures within a defined time window.
+
+### Example Rule
+- **Log source:** SSH service logs
+- **Event:** `Failed password`
+- **Time window:** 5 minutes
+- **Example threshold:** 5 or more failures
+- **Action:** Generate an alert for analyst investigation
+
+### Lab Test Results
+- **Observed events:** 3 failed SSH password log entries
+- **Test window:** 18 October 2026, 00:05–00:10
+- **Source address:** `::1` (IPv6 loopback)
+- **Threshold reached:** No
+- **Expected detection result:** No alert
+
+### Analyst Interpretation
+The controlled test produced three failed authentication events within the five-minute window. This did not reach the example threshold of five failures.
+
+A real alert would require further investigation of the source, targeted accounts, successful authentication events, and surrounding activity. The threshold is illustrative and should be tuned to the organisation's environment.
+
+**Limitation:** This is a manually executed log-counting exercise, not an automated or continuously running detection rule.
+
 ---
 
 **Portfolio:** [My GitHub Profile](https://github.com/surinenianwesh)
