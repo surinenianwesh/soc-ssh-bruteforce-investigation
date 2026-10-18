@@ -152,6 +152,33 @@ Connection closed by invalid user invaliduser123 ::1 [preauth]
 ### Analysis
 The test generated multiple SSH authentication failures. The source address `::1` is the IPv6 loopback address, confirming that the test originated on the same machine.
 
+
+## Automated SSH Failed-Login Detection
+
+### Objective
+Created a Bash script to check SSH authentication logs for failed password attempts within the most recent five minutes.
+
+### Detection Logic
+- **Log source:** Linux system journal (`journalctl`)
+- **Time window:** Rolling five minutes
+- **Threshold:** 5 or more failed-password log entries
+- **Alert condition:** Displays an alert when the threshold is reached
+- **Below threshold:** Displays `NO ALERT` when fewer than 5 matching entries are found
+
+### Test Result
+During a test run, the script reported 0 failed SSH attempts in the last five minutes and correctly displayed `NO ALERT: Below threshold`.
+
+Earlier controlled localhost testing generated failed SSH login events for an invalid username. These were lab-generated events, not evidence of an external attack.
+
+### Limitations
+This is a basic, manually executed detection script. It does not continuously monitor logs or send notifications. The threshold is a demonstration rule and would need tuning for a production environment.
+
+### Skills Demonstrated
+- Linux command-line investigation
+- SSH authentication log analysis
+- Bash scripting
+- Threshold-based detection logic
+- Basic security alert validation
 ### Final Classification
 **Controlled authentication-failure test — not a confirmed malicious incident.**
 
