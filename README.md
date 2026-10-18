@@ -232,6 +232,21 @@ sudo journalctl -u ssh --since "today" --no-pager | grep "Failed password" | gre
 
 ### Analyst Note
 The loopback address `::1` is not evidence of an external attacker. In a real investigation, an analyst would correlate the source address with timestamps, usernames, event frequency, and other security logs before classifying activity as malicious.
+## SSH Incident Timeline
+
+| Date and Time | Event | Observation |
+|---|---|---|
+| Oct 18, 00:08:55 | Failed login 1 | Invalid username `invaliduser123` |
+| Oct 18, 00:09:05 | Failed login 2 | 10 seconds after the first event |
+| Oct 18, 00:09:13 | Failed login 3 | 8 seconds after the second event |
+
+### Timeline Analysis
+Three failed-password events occurred within 18 seconds. All observed events came from the IPv6 loopback address `::1`, indicating local lab testing. The events demonstrate repeated authentication failures but do not, by themselves, establish an external brute-force attack.
+
+### Evidence Source
+Linux SSH service logs collected using `journalctl` and filtered for `Failed password` entries.
+
+
 ---
 
 **Portfolio:** [My GitHub Profile](https://github.com/surinenianwesh)
