@@ -208,6 +208,24 @@ The events span 5 minutes and 56 seconds. These records do not establish that fi
 ### Limitations
 These are historical journal records. Further investigation is needed to determine the origin of the connections and check for successful authentication or other suspicious activity.
 
+### Successful Authentication Review
+
+**Command used:**
+```bash
+sudo journalctl -u ssh --since "Jun 24 21:00:00" --until "Jun 24 23:00:00" --no-pager | grep -E "Failed password|Accepted password"
+```
+
+**Finding:**
+- 15 failed password events for the invalid username `fakeuser` were recorded between 21:10:49 and 21:16:45.
+- One successful password authentication for account `sarao` was recorded at 22:41:43.
+- Both event groups show source IP `10.0.2.15`, matching the Ubuntu VM's assigned IPv4 address.
+- The successful login occurred approximately 1 hour 25 minutes after the final observed failed attempt.
+
+**Analyst interpretation:**
+The successful authentication is relevant evidence, but the available logs do not establish a causal link between the failed attempts and the later successful login. Because the source IP matches the lab VM, the activity may be lab-generated or otherwise locally initiated. The account owner and session context should be verified before drawing a final conclusion.
+
+**Classification:** Historical authentication activity requiring context verification; no confirmed external attack.
+
 This lab demonstrates SSH log analysis and authentication-failure investigation. Further testing with multiple controlled sessions and a defined time window would be needed to evaluate brute-force detection.
 
 
