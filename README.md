@@ -1,5 +1,5 @@
 # SOC Investigation: SSH Brute-Force Activity
-
+``````
 ## 1. Project Overview
 
 This project documents a Security Operations Centre (SOC) investigation into suspected SSH brute-force activity on a Linux system.
@@ -181,6 +181,31 @@ This is a basic, manually executed detection script. It does not continuously mo
 - Basic security alert validation
 ### Final Classification
 **Controlled authentication-failure test — not a confirmed malicious incident.**
+
+## Source IP Investigation
+
+### Lab Findings
+- **Target hostname:** `sarao`
+- **Operating system:** Ubuntu Linux
+- **Source IP address:** `10.0.2.15`
+- **Network interface:** `enp0s3`
+- **Failed SSH password events:** 15
+- **First recorded event:** June 24, 21:10:49
+- **Last recorded event:** June 24, 21:16:45
+- **Time span:** 5 minutes 56 seconds
+- **Username attempted:** `fakeuser`
+- **Distinct source ports:** 5
+
+### Analysis
+The source IP `10.0.2.15` matches the IPv4 address assigned to the Ubuntu VM's `enp0s3` interface. This suggests that the connections originated from the same VM, connecting to its own network interface.
+
+The events span 5 minutes and 56 seconds. These records do not establish that five or more failures occurred within a single five-minute window, nor do they prove malicious intent.
+
+### Classification
+**Historical SSH authentication failures — source IP matches the Ubuntu VM; malicious intent not established.**
+
+### Limitations
+These are historical journal records. Further investigation is needed to determine the origin of the connections and check for successful authentication or other suspicious activity.
 
 This lab demonstrates SSH log analysis and authentication-failure investigation. Further testing with multiple controlled sessions and a defined time window would be needed to evaluate brute-force detection.
 
