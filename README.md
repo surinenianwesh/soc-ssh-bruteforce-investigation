@@ -291,6 +291,18 @@ Three failed-password events occurred within 18 seconds. All observed events cam
 Linux SSH service logs collected using `journalctl` and filtered for `Failed password` entries.
 
 
+### Sudo Activity Review
+
+**Time window:** June 24, 22:35–22:50
+
+**Command used:**
+```bash id="6f3pxp"
+sudo journalctl --since "Jun 24 22:35:00" --until "Jun 24 22:50:00" --no-pager | grep -i sudo
+```
+
+**Finding:** No matching sudo-related journal messages were returned.
+
+**Analyst interpretation:** The search did not identify sudo-related messages in the selected time window. This does not prove that no privileged activity occurred, because relevant events may not have been recorded or retained in the journal.
 ---
 
 **Portfolio:** [My GitHub Profile](https://github.com/surinenianwesh)
