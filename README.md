@@ -101,12 +101,13 @@ Record the following after completing the lab investigation:
 
 | Evidence | Finding |
 |---|---|
-| Investigation period | To be documented |
-| Source IP address | To be verified |
-| Targeted accounts | To be verified |
-| Failed login attempts | To be measured |
-| Successful authentication | To be checked |
-| Final classification | Pending evidence review |
+| Investigation period | June 24, 21:10:49–21:16:45 (historical records) |
+| Source IP address | `10.0.2.15` — matches the Ubuntu VM's `enp0s3` interface |
+| Targeted account | `fakeuser` (invalid username) |
+| Failed login attempts | 15 recorded events |
+| Distinct source ports | 5 |
+| Successful authentication | Not yet verified |
+| Final classification | Historical SSH authentication failures; malicious intent not established |
 
 **Note:** No incident conclusion is claimed in this template. Populate the findings using actual lab evidence before presenting the investigation as completed.
 
