@@ -253,6 +253,7 @@ Identify repeated SSH password failures within a defined time window.
 
 ### Analyst Interpretation
 The controlled test produced three failed authentication events within the five-minute window. This did not reach the example threshold of five failures.
+Attach files by dragging & dropping, selecting or pasting them.
 
 A real alert would require further investigation of the source, targeted accounts, successful authentication events, and surrounding activity. The threshold is illustrative and should be tuned to the organisation's environment.
 
@@ -329,6 +330,25 @@ Failed SSH attempts: 6
 Alert threshold: 5
 ALERT: SSH failed-login threshold reached
 ```
+
+### Enhanced SSH Detection: Source IP Reporting
+
+**Objective:** Improve the SSH failed-login detection script to display investigation evidence when the alert threshold is reached.
+
+**Detection configuration**
+- Log source: Linux systemd journal
+- Monitoring window: 5 minutes
+- Alert threshold: 5 failed password attempts
+
+**Validation result**
+- Failed attempts detected: 5
+- Alert generated: Yes
+- Source IP reported: `::1`
+- Test type: Controlled local authentication-failure simulation
+
+**Evidence collected:** The script displayed the timestamps, failed-login messages, usernames, source ports, and unique source IP address.
+
+**Analyst conclusion:** The detection logic successfully generated an alert at the configured threshold and displayed supporting evidence. The loopback source address indicates local test activity and does not establish an external attack.
 
 **Conclusion:** Both controlled tests behaved as expected. The detection script successfully identified when the configured threshold was reached. The tests were conducted locally and do not establish that an external attack occurred.
 
