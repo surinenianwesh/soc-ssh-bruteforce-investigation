@@ -305,4 +305,31 @@ sudo journalctl --since "Jun 24 22:35:00" --until "Jun 24 22:50:00" --no-pager |
 **Analyst interpretation:** The search did not identify sudo-related messages in the selected time window. This does not prove that no privileged activity occurred, because relevant events may not have been recorded or retained in the journal.
 ---
 
+### Detection Validation and Test Results
+
+**Objective:** Validate that the SSH failed-login detection script correctly identifies repeated failed authentication attempts.
+
+**Detection logic:**
+- Log source: Linux systemd journal (`journalctl`)
+- Monitoring window: Last 5 minutes
+- Alert threshold: 5 failed password attempts
+
+**Test results:**
+
+| Test | Failed attempts | Expected result | Actual result |
+|---|---:|---|---|
+| Below threshold | 2 | No alert | PASS |
+| Threshold reached | 6 | Alert generated | PASS |
+
+**Sample alert output:**
+```text
+SSH Failed-Login Detection
+Time window: Last 5 minutes
+Failed SSH attempts: 6
+Alert threshold: 5
+ALERT: SSH failed-login threshold reached
+```
+
+**Conclusion:** Both controlled tests behaved as expected. The detection script successfully identified when the configured threshold was reached. The tests were conducted locally and do not establish that an external attack occurred.
+
 **Portfolio:** [My GitHub Profile](https://github.com/surinenianwesh)
